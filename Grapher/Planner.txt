@@ -1,0 +1,200 @@
+Possible Tokens
+
+
+KEYWORDS: sqrt, 
+IDENTIFIERS: x, y
+CONSTANTS: Number
+operators: + - / * ^ () =
+
+step by step process
+
+step 1: user writes the equation that they want to graph
+ex: y = (x - 4)(x + 4)
+step 2: isolate all tokens into an array
+ex:
+: ID, : "y"
+: OP, : "="
+: OP, : "("
+: ID, : "x"
+: OP, : "-"
+:CONST,:"4"
+: OP, : ")"
+: OP, : "("
+: ID, : "x"
+: OP, : "+"
+:CONST,:"4"
+: OP, : ")"
+step 3: build a operation parse tree
+ex: 
+
+OP:"="
+{
+	{
+		ID:"y",
+	}	
+	{
+	
+		{
+			OP:"-"
+			{
+				{
+					ID:"x"
+				}
+				{
+					CONST:"4"
+				}
+			}
+		}
+		{
+			OP:"+"
+			{
+				{
+					ID:"x"
+				}
+				{
+					CONST:"4"
+				}
+			}
+		}
+	}
+	
+	
+}
+
+
+
+
+
+y*2 + (y)^2 + 2
+
+{
+	y	
+}
+
+y*2 + NODE0 + 2
+
+{
+	^
+	{
+		y
+	}
+	{
+		2
+	}
+}
+
+NODE1 + NODE0 + 2
+
+
+{
+	^
+	{
+		y
+	}
+	{
+		2
+	}
+}
+{
+	*
+	{
+		y
+	}
+	{
+		2
+	}
+}
+
+
+
+NODE0 + 2
+
+
+{
+	+
+	{
+		^
+		{
+			y
+		}
+		{
+			2
+		}
+	}
+	{
+		*
+		{
+			y
+		}
+		{
+			2
+		}
+	}
+}
+
+NODE0
+
++
+{
+	+
+	{
+		^
+		{
+			y
+		}
+		{
+			2
+		}
+	}
+	{
+		*
+		{
+			y
+		}
+		{
+			2
+		}
+	}
+}
+
+
+now optimize the tree
+
++
+{
+	^
+	{
+		y
+	}
+	{
+		2
+	}
+}
+{
+	*
+	{
+		y
+	}
+	{
+		2
+	}
+}
+{
+	2
+}
+
+next compile first find out how much memory is required to do math
+
+in this case, 1 buffer
+
+then turn then into a sequence of instructions
+
+mul y, 2
+str buf0
+pow y, 2
+add buf0
+add 2
+
+
+
+

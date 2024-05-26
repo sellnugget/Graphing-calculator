@@ -1,0 +1,56 @@
+Possible Tokens
+
+
+KEYWORDS: sqrt, 
+IDENTIFIERS: x, y
+CONSTANTS: Number
+operators: + - / * ^ () =
+
+step by step process
+
+step 1: user writes the equation that they want to graph
+ex: y = (x - 4)(x + 4)
+step 2: isolate all tokens into an array
+ex:
+: ID, : "y"
+: OP, : "="
+: OP, : "("
+: ID, : "x"
+: OP, : "-"
+:CONST,:"4"
+: OP, : ")"
+: OP, : "("
+: ID, : "x"
+: OP, : "+"
+:CONST,:"4"
+: OP, : ")"
+step 3: build a operation parse tree
+ex: 
+
+OP:"="
+{
+	{
+		ID:"y",
+	}	
+	{
+	
+		{
+			OP:"-"
+			{
+				{
+					ID:"x"
+				}
+				{
+					CONST:"4"
+				}
+			}
+		}
+		{
+			
+		}
+	}
+	
+	
+}
+
+
