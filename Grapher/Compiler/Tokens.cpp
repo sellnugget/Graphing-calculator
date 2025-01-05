@@ -15,10 +15,12 @@ std::string Token::keywordTypes[] =
 	"sqrt", "log", "ln", "exp",
 	//other functions
 	"abs", "mod", "round", "sign", "floor", "ceil","max","min",
+	//other keywords
+	"var", "fn"
 
 };
 std::string Token::operatorTypes[] = {
-	"(",")", "^","/","*","-","+","=", ","
+	"(",")", "^","/","*","-","+","=", ",", "{", "}"
 };
 
 std::string Token::toString()

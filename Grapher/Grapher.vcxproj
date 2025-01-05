@@ -104,7 +104,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>SFML_STATIC;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\naomi\Documents\Lib\SFML-2.5.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\naomi\Documents\Lib\SFML-2.5.1\include;C:\Users\naomi\Documents\Lib\ttmath;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -121,7 +121,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>SFML_STATIC;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\naomi\Documents\Lib\SFML-2.5.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\naomi\Documents\Lib\SFML-2.5.1\include;C:\Users\naomi\Documents\Lib\ttmath;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -137,11 +137,14 @@
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Compiler\Tokens.cpp" />
     <ClCompile Include="Compiler\ERROR_HANDLE.cpp" />
+    <ClCompile Include="Compiler\GS_COMPILER.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Compiler\Compiler.cpp" />
     <ClCompile Include="Compiler\Tokenizer.cpp" />
     <ClCompile Include="Compiler\Parser.cpp" />
     <ClCompile Include="Compiler\TreeMinip.cpp" />
+    <ClCompile Include="Mathimatics.cpp" />
+    <ClCompile Include="NodeExecutor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
@@ -151,10 +154,13 @@
     <ClInclude Include="Compiler\Parser.h" />
     <ClInclude Include="Compiler\ERROR_HANDLE.h" />
     <ClInclude Include="Compiler\TreeMinip.h" />
+    <ClInclude Include="Compiler\GS_COMPILER.h" />
+    <ClInclude Include="Mathimatics.h" />
+    <ClInclude Include="NodeExecutor.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="DefaultGrapher.frag" />
-    <None Include="Function.gph" />
+    <None Include="Function.gs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

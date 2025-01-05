@@ -6,14 +6,18 @@
 #include "Compiler/Compiler.h"
 #include <SFML/Graphics.hpp>
 #include <fstream>
-
+#include "Application.h"
 
 
 
 int main()
 {
+	Application();
+	
 
-	std::string Input;
+	/*
+	
+		std::string Input;
 	std::getline(std::cin, Input);
 	ASTNODE* node = NULL;
 	try {
@@ -97,6 +101,9 @@ int main()
 		window.draw(sprite, &GraphingShader);
 		window.display();
 	}
+
+	
+	*/
 
 	//((x-4)^2+y^2-16)*((x+4)^2+y^2-16)*(16*x^2+(y-10)^2-100) = 0
 }

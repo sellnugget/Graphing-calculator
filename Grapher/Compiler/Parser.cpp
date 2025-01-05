@@ -17,7 +17,7 @@ std::map<int, std::string> priorityToString =
 ASTNODE* Parser::Operation(const std::vector<Token>& tokens, int presidence)
 {
     std::vector<Token> tokensInOperation;
-
+    //create new node
     ASTNODE* node = new ASTNODE();
     node->priority = (PRIORITY)presidence;
     /*
@@ -130,6 +130,7 @@ ASTNODE* Parser::Operation(const std::vector<Token>& tokens, int presidence)
             }
 
             if (Priorities[tokens[i].data] == presidence && tokensInOperation.size() > 0 && noneOperator) {
+                //create new tree for everything before operator
                 node->Nodes.push_back(Operation(tokensInOperation, presidence + 1));
                 node->tokens.push_back(tokens[i]);
                 tokensInOperation.clear();
@@ -142,11 +143,16 @@ ASTNODE* Parser::Operation(const std::vector<Token>& tokens, int presidence)
     if (depth != 0) {
         throw ERROR{ "Missing \")\"", ERROR::SYNTAX };
     }
+    
+    
     if (node->tokens.size() == 0) {
         delete node;
         return Operation(tokens, presidence + 1);
     }
     else {
+        if (tokensInOperation.size() == 0) {
+            throw ERROR{"Nothing after " + node->tokens[0].data, ERROR::SYNTAX};
+        }
         node->Nodes.push_back(Operation(tokensInOperation, presidence + 1));
     }
     return node;
