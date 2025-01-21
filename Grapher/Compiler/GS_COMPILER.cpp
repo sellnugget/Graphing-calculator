@@ -54,7 +54,7 @@ ASTNODE* GS_COMPILER::blockSpace(std::vector<Token> tokens, int& start)
 
 	for (int i = 0; i < blockTokens.size(); i++) {
 		if (blockTokens[i].data == "var") {
-
+			Token identifier;
 		}
 	}
 	return output;
