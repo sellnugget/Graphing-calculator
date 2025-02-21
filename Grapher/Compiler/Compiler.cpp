@@ -44,7 +44,20 @@ std::string Compiler::OperationCompilationGPU(ASTNODE* equation)
 		if (equation->tokens[0].data == "y") {
 			return "Point.y";
 		}
-		return equation->tokens[0].data;
+		bool containsdecimal = false;
+		for (int i = 0; i < equation->tokens[0].data.size(); i++) {
+			if (equation->tokens[0].data[i] == '.') {
+				containsdecimal = true;
+				break;
+			}
+		}
+		if (!containsdecimal) {
+			return equation->tokens[0].data + ".0";
+		}
+		else {
+			return equation->tokens[0].data;
+		}
+		
 	}
 
 	if (equation->priority == Preops) {
@@ -57,7 +70,7 @@ std::string Compiler::OperationCompilationGPU(ASTNODE* equation)
 	}
 	
 	if (equation->tokens[0].data == "^") {
-		return "pow(" + OperationCompilationGPU(equation->Nodes[0]) + "," + OperationCompilationGPU(equation->Nodes[1]) + ")";
+		return "pow(" + OperationCompilationGPU(equation->Nodes[0]) + ", " + OperationCompilationGPU(equation->Nodes[1]) + ")";
 	}
 
 	std::string Chunk = "";
@@ -98,7 +111,7 @@ std::string Compiler::GenerateGPUFunction(ASTNODE* equation, std::string name)
 			Function += "if(abs(mod(" + InfinityChecks[i].ToCheck + "," + std::to_string(InfinityChecks[i].Location) + ")) < pow(10, ZoomFactor - 2.5)) {return 2;}\n";
 		}
 		else {
-			Function += "float value = " + InfinityChecks[i].ToCheck;+ "\n";
+			Function += "float value = " + InfinityChecks[i].ToCheck; + "\n";
 			Function += "if(abs(value - " + std::to_string(InfinityChecks[i].Location) + ") < 0.00001) {return 2;}\n";
 		}
 		

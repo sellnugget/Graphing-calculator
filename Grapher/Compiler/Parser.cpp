@@ -76,7 +76,7 @@ ASTNODE* Parser::Operation(const std::vector<Token>& tokens, int presidence)
             node->Nodes.push_back(Operation(tokensInOperation, presidence + 1));
             std::vector<Token> tokenbuff;
             
-            if (i + 1 >= tokens.size() || (tokens[i + 1].type == Token::OPERATOR && tokens[i + 1].data != ")")) {
+            if (i + 1 >= tokens.size() || (tokens[i + 1].type == Token::OPERATOR && tokens[i + 1].data != "(")) {
                 throw ERROR{ "post operation contains nothing", ERROR::SYNTAX };
             }
 

@@ -11,6 +11,8 @@
 #include "NodeExecutor.h"
 #include "Compiler/GS_COMPILER.h"
 #include <fstream>
+
+
 class Application
 {
 public:
@@ -30,7 +32,8 @@ private:
 	sf::View view = sf::View(sf::Vector2f(0, 0), sf::Vector2f(2.0, 2.0));
 	float Zoom = 0;
 
-
+	int startWidth = 1080;
+	int startHeight = 1080;
 	void DrawLine(const sf::Vector2f& start, const sf::Vector2f& end, float thickness, sf::Color color, sf::RenderTexture& texture);
 	sf::Shader GraphingShader;
 	sf::Vector2i LastMousePos;

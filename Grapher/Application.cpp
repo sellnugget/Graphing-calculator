@@ -8,14 +8,12 @@ Application::Application()
 	ASTNODE* node = compiler.Compile(a);
 	std::cout << Parser::NodetoString(node, 0);
 
-	window.create(sf::VideoMode(1080, 1080), "Grapher");
-	UIwindow.create(sf::VideoMode(640, 640), "UI");
-	UI.create(1080, 1080);
-	Background.create(1080, 1080);
-	Graph.create(1080, 1080);
+	window.create(sf::VideoMode(startWidth, startHeight), "Grapher");
+	UI.create(startWidth, startHeight);
+	Background.create(startWidth, startHeight);
+	Graph.create(startWidth, startHeight);
 
 
-	
 
 	sf::View DefaultView;
 
@@ -46,15 +44,6 @@ Application::Application()
 			}
 			MainUpdate();
 		}
-		if (UIwindow.isOpen()) {
-			UIwindow.setTitle("FPS " + std::to_string((int)fps));
-			sf::Event event;
-			while (UIwindow.pollEvent(event)) {
-				if (UIwindow.hasFocus()) {
-				
-				}
-			}
-		}
 
 	}
 }
@@ -75,12 +64,13 @@ void Application::MainUpdate()
 	
 	sf::Sprite SpriteTexture;
 
-
+	float aspectRatio = (float)window.getSize().x / window.getSize().y;
 
 	Background.display();
 	Graph.display();
 	UI.display();
 
+	SpriteTexture.setScale((1.0 / window.getSize().x) , 1.0 / window.getSize().y);
 	SpriteTexture.setTexture(Background.getTexture());
 	window.draw(SpriteTexture);
 	SpriteTexture.setTexture(Graph.getTexture());
@@ -88,6 +78,10 @@ void Application::MainUpdate()
 	SpriteTexture.setTexture(UI.getTexture());
 	window.draw(SpriteTexture);
 
+	sf::View DefaultView;
+	DefaultView.setSize(1, 1);
+	DefaultView.setCenter(sf::Vector2f(1/2.0, 1.0/2.0));
+	window.setView(DefaultView);
 	window.display();
 
 	if (window.hasFocus()) {
@@ -101,8 +95,8 @@ void Application::MainUpdate()
 		}
 
 	}
-
-	view.setSize(sf::Vector2f(pow(10, Zoom), -pow(10, Zoom)));
+	
+	view.setSize(sf::Vector2f(pow(10, Zoom) * aspectRatio, -pow(10, Zoom) / aspectRatio));
 	LastMousePos = sf::Mouse::getPosition();
 	Graph.setView(view);
 	Background.setView(view);
@@ -110,7 +104,6 @@ void Application::MainUpdate()
 
 void Application::DrawGraph()
 {
-
 
 	sf::RectangleShape shape;
 	shape.setSize(sf::Vector2f(view.getSize().x, view.getSize().y));
@@ -174,6 +167,7 @@ void Application::DrawBackground()
 	float offsety = round(view.getCenter().y / Range) * Range;
 
 	Range *= 2;
+	//draws background grid
 	for (float i = -Range; i < Range; i += Range / (25 * 2)) {
 
 
@@ -188,6 +182,7 @@ void Application::DrawBackground()
 		Background.draw(lines);
 	}
 	for (float i = -Range; i <= Range; i += Range / (5 * 2)) {
+		
 
 		DrawLine(sf::Vector2f(-Range + offsetx, i + offsety), sf::Vector2f(Range + offsetx, i + offsety), pow(10, Zoom - 2) * 0.5, sf::Color(256 / 2, 256 / 2, 256 / 2), Background);
 		DrawLine(sf::Vector2f(i + offsetx, Range + offsety), sf::Vector2f(i + offsetx, -Range + offsety), pow(10, Zoom - 2) * 0.5, sf::Color(256 / 2, 256 / 2, 256 / 2), Background);
@@ -275,7 +270,10 @@ void Application::EventHandler(sf::Event event)
 	if (event.type == sf::Event::Closed)
 		window.close();
 	if (event.type == sf::Event::Resized) {
-
+		
+		UI.create(window.getSize().x, window.getSize().y);
+		Background.create(window.getSize().x, window.getSize().y);
+		Graph.create(window.getSize().x, window.getSize().y);
 	}
 	if (event.type == sf::Event::MouseWheelScrolled) {
 
@@ -321,7 +319,7 @@ void Application::EventHandler(sf::Event event)
 				delete equation;
 			}
 			std::cout << Compiler::error_handle.GetErrorList();
-
+			
 			std::string GraphingShaderText = "";
 
 			std::ifstream myfile("DefaultGrapher.frag");
@@ -333,7 +331,10 @@ void Application::EventHandler(sf::Event event)
 				}
 				myfile.close();
 			}
-			GraphingShaderText += Compiler::GenerateGPUFunction(equation, "SampleFunction");
+			if (equation != NULL) {
+				GraphingShaderText += Compiler::GenerateGPUFunction(equation, "SampleFunction");
+			}
+			
 			std::cout << GraphingShaderText;
 			GraphingShader.loadFromMemory(GraphingShaderText, sf::Shader::Fragment);
 			myfile.close();
